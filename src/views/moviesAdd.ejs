@@ -17,15 +17,35 @@
     <section class="formulario">
         <form action="/movies/create" method="POST">
             <label for="title">Title </label>
-            <p><input type="text" name="title" id="" required></p>
+            <p><input type="text" name="title">
+                <% if(locals.errors && locals.errors.title) { %>
+                    <p><%= errors.title.msg %> </p>
+                <% } %> 
+            </p>
             <label for="rating">Rating </label>
-            <p><input type="number" name="rating" id="" required> </p>
+            <p><input type="number" name="rating" >
+                <% if(locals.errors && locals.errors.rating) { %>
+                    <p><%= errors.rating.msg %> </p>
+                <% } %> 
+            </p>
             <label for="awards">Awards </label>
-            <p><input type="number" name="awards" id="" required></p>
+            <p><input type="number" name="awards">
+                <% if(locals.errors && locals.errors.awards) { %>
+                    <p><%= errors.awards.msg %> </p>
+                <% } %> 
+            </p>
             <label for="release_date">Release date </label>
-            <p><input type="date" name="release_date" id="" required></p>
+            <p><input type="date" name="release_date">
+                <% if(locals.errors && locals.errors.release_date) { %>
+                    <p><%= errors.release_date.msg %> </p>
+                <% } %> 
+            </p>
             <label for="length">Length </label>
-            <p><input type="number" name="length" id="" required></p>
+            <p><input type="number" name="length">
+                <% if(locals.errors && locals.errors.length) { %>
+                    <p><%= errors.length.msg %> </p>
+                <% } %> 
+            </p>
 
             <br>
             <p> <button class="botonAgregar" type="submit">Agregar</button>

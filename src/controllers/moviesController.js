@@ -1,5 +1,6 @@
 const db = require('../database/models');
 const sequelize = db.sequelize;
+const { validationResult } = require("express-validator");
 
 //Otra forma de llamar a los modelos
 const Movies = db.Movie;
@@ -45,17 +46,23 @@ const moviesController = {
         res.render("moviesAdd") 
     },
     create: function (req, res) {
-        Movies.create({
-            title: req.body.title,
-            rating: req.body.rating,
-            length: req.body.length,
-            awards: req.body.awards,
-            release_date: req.body.release_date
-        })
-        .then(function(){
-            res.redirect("/movies")
-        })
-        .catch(error => res.send(error))
+        const errors = validationResult(req);
+        if(errors.isEmpty()){
+            
+            Movies.create({
+                title: req.body.title,
+                rating: req.body.rating,
+                length: req.body.length,
+                awards: req.body.awards,
+                release_date: req.body.release_date
+            })
+            .then(function(){
+                res.redirect("/movies")
+            })
+            .catch(error => res.send(error))
+        }else{
+            res.render("moviesAdd", { errors: errors.mapped()})
+        }
     },
     edit: function(req, res) {
         let movieId = req.params.id;
@@ -66,6 +73,8 @@ const moviesController = {
         .catch(error => res.send(error))
     },
     update: function (req,res) {
+        const errors = validationResult(req);
+        if(errors.isEmpty()){
         let movieId = req.params.id;
         Movies.update({
             title: req.body.title,
@@ -82,6 +91,9 @@ const moviesController = {
             res.redirect("/movies")
         })
         .catch(error => res.send(error))
+    }else{
+        res.render("moviesEdit", { errors: errors.mapped()})
+    }
     },
     delete: function (req, res) {
         let movieId = req.params.id;
